@@ -16,7 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/toolbar"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="20dp"
+            android:text="Acceleration"
+            android:id="@+id/Acceleration"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

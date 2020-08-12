@@ -1,6 +1,10 @@
 package com.example.finalproject;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,22 +19,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Activity2 extends AppCompatActivity {
     private Button BluetBtn,RedBtn;
-    private TextView editText,editTextBTNCHoice;
-
+    private TextView editText,editTextBTNCHoice, Acceleration;
+    private MyReceiver receiver;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
+        receiver = new MyReceiver();
+        IntentFilter intentFilter = new IntentFilter("com.example.broadcast.Acceleration");
+        registerReceiver(receiver,intentFilter);
+
+        registerUIElements();
+        startService(new Intent(this,AccelerationService.class));
+
+
+
+
+
+
+    }
+
+    private void registerUIElements() {
+        Acceleration=(TextView) findViewById(R.id.Acceleration);
         BluetBtn=(Button) findViewById(R.id.BtnBlue);
         BluetBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-              //  String text=String.valueOf(findBTN((int)event.getX(),(int)event.getY()));
+                //  String text=String.valueOf(findBTN((int)event.getX(),(int)event.getY()));
                 String text=String.valueOf((int)Math.round(Math.sqrt((Math.pow(BluetBtn.getWidth()/2-event.getX(),2)+Math.pow(BluetBtn.getHeight()-event.getY(),2)))));
                 editText.setText(text);
                 return false;
@@ -48,9 +69,9 @@ public class Activity2 extends AppCompatActivity {
         });
         editText=(TextView) findViewById(R.id.EditTextTouchPrecision);
         editTextBTNCHoice=(TextView) findViewById(R.id.EditTextBTNCHOICE);
-
-
     }
+
+
 
     public int findBTN(int InputX, int InputY){ //returns true if distance between touch pointer and btnBlue(middle of BTN) is smaller then distance between touchpointer and btnRed; else: return false
         int BlueX=(int) BluetBtn.getX()+BluetBtn.getWidth()/2;
@@ -129,5 +150,32 @@ public class Activity2 extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        try {
+            unregisterReceiver(receiver);
 
+        }catch (Exception e){e.printStackTrace();}
+        super.onDestroy();
+
+
+    }
+    private class MyReceiver extends BroadcastReceiver {
+        //https://www.journaldev.com/10356/android-broadcastreceiver-example-tutorial
+        public MyReceiver(){}
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if("com.example.broadcast.Acceleration".equals(intent.getAction())) {
+
+                int x = intent.getIntExtra("x", 0);
+                int y =intent.getIntExtra("y",0);
+
+                Acceleration.setText("Acceleration: X= "+x+"  Y= "+y);
+
+            }
+
+
+        }
+    }
 }
