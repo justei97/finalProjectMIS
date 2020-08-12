@@ -168,10 +168,10 @@ public class Activity2 extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if("com.example.broadcast.Acceleration".equals(intent.getAction())) {
 
-                int x = intent.getIntExtra("x", 0);
-                int y =intent.getIntExtra("y",0);
-
-                Acceleration.setText("Acceleration: X= "+x+"  Y= "+y);
+                float x = intent.getFloatExtra("x", 0);
+                float y =intent.getFloatExtra("y",0);
+                float z=intent.getFloatExtra("z",0);
+                Acceleration.setText("Acceleration: X= "+x+"  Y= "+y+"  Z= "+z);
 
             }
 

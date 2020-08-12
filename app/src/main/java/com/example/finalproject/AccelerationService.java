@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -30,14 +31,16 @@ public class AccelerationService extends Service implements SensorEventListener 
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        int x = (int) event.values[0];
-        int y = (int) event.values[1];
+        float x =event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
          Intent broadcastIntent =new Intent();
 
         broadcastIntent.setAction("com.example.broadcast.Acceleration");
+
         broadcastIntent.putExtra("x",x);
         broadcastIntent.putExtra("y",y);
-
+        broadcastIntent.putExtra("z",z);
      /* (context.sendBroadcast)*/  this.sendBroadcast(broadcastIntent);
 
 
