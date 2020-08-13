@@ -31,7 +31,7 @@ public class AccelerationService extends Service implements SensorEventListener 
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float x =event.values[0];
+        float x = event.values[0];
         float y = event.values[1];
         float z = event.values[2];
          Intent broadcastIntent =new Intent();
@@ -41,7 +41,7 @@ public class AccelerationService extends Service implements SensorEventListener 
         broadcastIntent.putExtra("x",x);
         broadcastIntent.putExtra("y",y);
         broadcastIntent.putExtra("z",z);
-     /* (context.sendBroadcast)*/  this.sendBroadcast(broadcastIntent);
+        this.sendBroadcast(broadcastIntent);
 
 
     }

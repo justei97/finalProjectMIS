@@ -22,8 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Activity2 extends AppCompatActivity {
-    private Button BluetBtn,RedBtn;
-    private TextView editText,editTextBTNCHoice, Acceleration;
+    private Button BluetBtn,RedBtn, BtnBack,BtnNext;
+    private TextView editText,editTextBTNCHoice, Acceleration, answer;
     private MyReceiver receiver;
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -54,6 +54,8 @@ public class Activity2 extends AppCompatActivity {
                 //  String text=String.valueOf(findBTN((int)event.getX(),(int)event.getY()));
                 String text=String.valueOf((int)Math.round(Math.sqrt((Math.pow(BluetBtn.getWidth()/2-event.getX(),2)+Math.pow(BluetBtn.getHeight()-event.getY(),2)))));
                 editText.setText(text);
+                editTextBTNCHoice.setText("BlueBtn");
+                answer.setText("Blue");
                 return false;
             }
         });
@@ -64,11 +66,33 @@ public class Activity2 extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 String text=String.valueOf((int)Math.round(Math.sqrt((Math.pow(RedBtn.getWidth()/2-event.getX(),2)+Math.pow(RedBtn.getHeight()-event.getY(),2)))));
                 editText.setText(text);
+                editTextBTNCHoice.setText("RedBtn");
+                answer.setText("Red");
                 return false;
             }
         });
+
+        BtnBack=(Button) findViewById(R.id.BtnBack);
+        BtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        BtnNext=(Button) findViewById(R.id.BtnForward);
+        BtnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Activity2.this, Activity3.class);
+                startActivity(intent);
+            }
+        });
+
         editText=(TextView) findViewById(R.id.EditTextTouchPrecision);
         editTextBTNCHoice=(TextView) findViewById(R.id.EditTextBTNCHOICE);
+        answer=(TextView) findViewById(R.id.Result);
     }
 
 
@@ -82,10 +106,10 @@ public class Activity2 extends AppCompatActivity {
         int distanceBlue=(int)Math.round(Math.sqrt((Math.pow(BlueX-InputX,2)+Math.pow(BlueY-InputY,2))));
         int distanceRed=(int)Math.round(Math.sqrt((Math.pow(RedX-InputX,2)+Math.pow(RedY-InputY,2))));
         if(distanceBlue<distanceRed)
-        {   editTextBTNCHoice.setText("BlueBTN");
+        {   editTextBTNCHoice.setText("BlueBtn");
             return distanceBlue;}
         else{
-            editTextBTNCHoice.setText("RedBTN");
+            editTextBTNCHoice.setText("RedBtn");
             return distanceRed;}
 
 
