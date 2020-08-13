@@ -26,8 +26,9 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 public class Activity3 extends AppCompatActivity {
-    private TextView Acceleration, result;
+    private TextView Acceleration, result,Timer;
     private MyReceiver receiver;
+    private long timeStart, timeEnd;
     private Button Next,Back;
     private SeekBar seekRed,seekBlue; //https://stackoverflow.com/questions/14910226/how-to-make-slide-to-unlock-button-in-android
   //  @SuppressLint("ClickableViewAccessibility")
@@ -41,7 +42,7 @@ public class Activity3 extends AppCompatActivity {
 
         registerUIElements();
         startService(new Intent(this,AccelerationService.class));
-
+        timeStart=System.currentTimeMillis();
 
 
 
@@ -51,6 +52,7 @@ public class Activity3 extends AppCompatActivity {
 
     private void registerUIElements() {
     result=(TextView) findViewById(R.id.Result);
+    Timer=(TextView) findViewById(R.id.Time);
     Acceleration=(TextView) findViewById(R.id.Acceleration);
     Back=(Button) findViewById(R.id.BtnBack);
     Back.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +90,8 @@ public class Activity3 extends AppCompatActivity {
                 seekBar.setProgress(100);
                 seekBar.getThumb().setAlpha(0);
                 result.setText("Blue");
+                timeEnd=System.currentTimeMillis()-timeStart;
+                Timer.setText( "needed Time(ms): " +   String.valueOf(timeEnd));
             }
         }
     });
@@ -114,6 +118,8 @@ public class Activity3 extends AppCompatActivity {
                     seekBar.setProgress(100);
                     seekBar.getThumb().setAlpha(0);
                     result.setText("Red");
+                    timeEnd=System.currentTimeMillis()-timeStart;
+                    Timer.setText( "needed Time(ms): " + String.valueOf(timeEnd));
                 }
             }
         });
