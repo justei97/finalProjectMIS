@@ -36,12 +36,6 @@ public class Activity2 extends AppCompatActivity {
 
         registerUIElements();
         startService(new Intent(this,AccelerationService.class));
-
-
-
-
-
-
     }
 
     private void registerUIElements() {

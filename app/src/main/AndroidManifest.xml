@@ -15,7 +15,23 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity3"
-            android:label="@string/title_activity_2"
+            android:label="@string/title_activity_3"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Veritaps"
+            android:label="@string/title_Veritaps"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".eCar"
+            android:label="@string/title_eCar"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".eBike"
+            android:label="@string/title_eBike"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Summary"
+            android:label="@string/title_Summary"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <service
             android:enabled="true"

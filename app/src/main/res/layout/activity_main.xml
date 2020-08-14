@@ -27,10 +27,20 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Testing"
+        android:text="Test Inputs"
         android:id="@+id/btnStart"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-100dp"
+        android:layout_alignBottom="@+id/btnStart"
+        android:layout_alignLeft="@+id/btnStart"
+        android:layout_centerVertical="true"
+        android:text="Veritaps"
+        android:id="@+id/btnVeritaps"
+        />
 
 
 
