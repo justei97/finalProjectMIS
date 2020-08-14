@@ -168,7 +168,7 @@ public class Veritaps extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(Veritaps.this);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("key",json);
+        editor.putString("veritaps",json);
         editor.apply();
         unregisterReceiver(receiver);
     }

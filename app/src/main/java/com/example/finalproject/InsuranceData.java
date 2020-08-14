@@ -36,10 +36,11 @@ public InsuranceData(){
     public ArrayList<Float> getzAcceleration(){
         return  zAcceleration;
     }
+    public long getActivityTime(){return this.activityTime;}
 
 
 
-    public ArrayList<Long> getActivityTime() {
+    public ArrayList<Long> getButtonTime() {
         return list;
     }
 }

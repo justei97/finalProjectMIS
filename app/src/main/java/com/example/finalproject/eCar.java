@@ -1,25 +1,64 @@
 package com.example.finalproject;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.content.BroadcastReceiver;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.Gson;
 
 public class eCar extends AppCompatActivity {
     private Spinner dropDownBrand, dropDownModel, dropDownCondition;
-    private String [] list1=new String[4];
+    private static SharedPreferences preferences;
+    private  InsuranceData insuranceDataeCar;
     private Button BtnOk,BtnCancel;
+    private EditText editYear,editPrice;
+    private MyReceiver receiver;
+    private long timeStart,timeStartFirstLetterOP,timeStartFirstLetter;
+    private int textCounter=0, textCounterOP=0, textsize=0, textsizeOP=0;
+    private int counterDeletions=0;
+    public eCar() {
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ecar);
+        timeStart=System.currentTimeMillis();
+        insuranceDataeCar=new InsuranceData();
+        receiver = new MyReceiver();
+        IntentFilter intentFilter = new IntentFilter("com.example.broadcast.Acceleration");
+        registerReceiver(receiver,intentFilter);
 
+        startService(new Intent(this,AccelerationService.class));
         setBtn();
+        setTextBox(); //set onTextChanged Method for measuring time between inputs
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            unregisterReceiver(receiver);
+
+        }catch (Exception e){e.printStackTrace();}
+        super.onDestroy();
+
+
     }
 
     private void setBtn() {
@@ -77,7 +116,8 @@ public class eCar extends AppCompatActivity {
         BtnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                    unregisterReceiver(receiver);
+                    Save();
                     Intent intent=new Intent(getBaseContext(), Summary.class);
                     startActivity(intent);
 
@@ -89,6 +129,7 @@ public class eCar extends AppCompatActivity {
         BtnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                unregisterReceiver(receiver);
                 Intent intent=new Intent(getBaseContext(), Veritaps.class);
                 startActivity(intent);
             }
@@ -96,8 +137,107 @@ public class eCar extends AppCompatActivity {
 
     }
 
+    private void setTextBox(){
+        editPrice=(EditText) findViewById(R.id.TextViewPrice);
+        editYear=(EditText) findViewById(R.id.TextViewYear);
+        editPrice.addTextChangedListener(new TextWatcher() { //set up on textChanged Listener for Purchase Year edit box
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Log.d("textCHanged  ", String.valueOf(PurchaseYear.getText().chars().count()));
+                if( editPrice.getText().chars().count()==1&&textCounter==0)
+                {   timeStartFirstLetter=System.currentTimeMillis();                                    //measure time between input of 1st and 2nd letter (using keyboard)
+                    textCounter=1;
+                }
+                if( editPrice.getText().chars().count()==2&&textCounter==1)
+                {  insuranceDataeCar.addTime(System.currentTimeMillis()-timeStartFirstLetter);
+                    textCounter=2;
+
+                }
+                if(textsize> editPrice.getText().chars().sum())
+                {counterDeletions=counterDeletions+1;}
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                textsize=s.length();
+            }
+        });
+        editYear.addTextChangedListener(new TextWatcher() { //set up on textChanged Listener for OriginalPrice edit box
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Log.d("textCHanged  ", String.valueOf(PurchaseYear.getText().chars().count()));
+                if( editYear.getText().chars().count()==1&&textCounterOP==0)
+                {   timeStartFirstLetterOP=System.currentTimeMillis();                                    //measure time between input of 1st and 2nd letter (using keyboard)
+                    textCounterOP=1;
+                }
+                if( editYear.getText().chars().count()==2&&textCounterOP==1)
+                {   insuranceDataeCar.addTime(System.currentTimeMillis()-timeStartFirstLetterOP);
+                    textCounterOP=2;
+
+                }
+                if(textsizeOP> editYear.getText().chars().sum())
+                {counterDeletions=counterDeletions+1;}
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                textsizeOP=s.length();
+            }
+        });
+
+    }
+
+    private void Save(){ //store gatheredData in sharedPreferences "vehicle" //https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android
+
+        insuranceDataeCar.setActivityTime(System.currentTimeMillis()-timeStart);
+        //safe object of InsuranceData with Gson in sharedPreferences
+        Gson gson = new Gson();
+        String json = gson.toJson(insuranceDataeCar);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(eCar.this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("vehicle",json);
+        editor.apply();
+        try {
+            unregisterReceiver(receiver);
+        }catch (IllegalArgumentException e){e.printStackTrace();}
+
+    }
+
     private ArrayAdapter SetAdapter(String [] list2) {
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, list2);
         return adapter1;
+    }
+
+
+    private class MyReceiver extends BroadcastReceiver {
+        //https://www.journaldev.com/10356/android-broadcastreceiver-example-tutorial
+        public MyReceiver(){}
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if("com.example.broadcast.Acceleration".equals(intent.getAction())) {
+                Log.d("Receive","onReceive");
+                float x = intent.getFloatExtra("x", 0);
+                float y =intent.getFloatExtra("y",0);
+                float z=intent.getFloatExtra("z",0);
+                insuranceDataeCar.addAccelerationData(x,y,z);
+
+            }
+
+
+        }
     }
 }
