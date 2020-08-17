@@ -56,10 +56,13 @@ public class Veritaps extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
     }
+
     @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
     //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        mykeyboard.getClostestDistance(ev.getX(),ev.getY());
+        if( mykeyboard.getClostestDistance(ev.getX(),ev.getY())!=0) // only add touch events if they are within 100 distance units
+        insuranceDataVeritaps.addBtnPrecision( mykeyboard.getClostestDistance(ev.getX(),ev.getY()));
+
         return super.dispatchTouchEvent(ev);
     }
 

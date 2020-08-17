@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 public class Summary extends AppCompatActivity {
-    private TextView textViewBtnTime,textViewActivityTime,textViewXMean,textViewYMean,textViewZMean,textViewActivityTimeVehicle ;
+    private TextView textViewBtnTime,textViewActivityTime,textViewXMean,textViewYMean,textViewZMean,textViewActivityTimeVehicle, AvgBtnDst ;
 
 
 
@@ -27,6 +27,7 @@ public class Summary extends AppCompatActivity {
             textViewXMean=(TextView)findViewById(R.id.textViewXMean);
             textViewYMean=(TextView) findViewById(R.id.textViewYMean);
             textViewZMean=(TextView)findViewById(R.id.textViewZMean);
+            AvgBtnDst=(TextView)findViewById(R.id.textViewAvgBtnDistance);
     }
 
 
@@ -81,6 +82,15 @@ public class Summary extends AppCompatActivity {
             textViewBtnTime.setText(String.valueOf((ButtonTime/time2Button.size())));
             textViewActivityTime.setText(textViewActivityTime.getText()+"  "+String.valueOf(insuranceDataVertaps.getActivityTime()/1000));
             textViewActivityTimeVehicle.setText(textViewActivityTimeVehicle.getText()+"  "+String.valueOf(insuranceDataVehicle.getActivityTime()/1000));
+            ArrayList<Long> BtnVehic=insuranceDataVehicle.getButtonTime();
+            BtnVehic.addAll(insuranceDataVertaps.getButtonTime());
+            long dist=0;
+            for(int i=0;i<BtnVehic.size();i++)
+            {
+                dist=dist+BtnVehic.get(i);
+            }
+            AvgBtnDst.setText(AvgBtnDst.getText()+String.valueOf(dist/BtnVehic.size()));
+
 
         }
     }

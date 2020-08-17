@@ -154,7 +154,10 @@ public class keyboard extends LinearLayout implements View.OnClickListener, View
            { distance=d;}
 
         }
-        return distance;
+        if(distance<100) //Assumption: if distance from touch position to any keyboard button is greater than 100 then the touch wasnt on purpose...
+            return distance;
+        else return 0;
+
     }
 
 

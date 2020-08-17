@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +11,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,7 +33,7 @@ public class eBike extends AppCompatActivity {
     private Button BtnOk, BtnCancel;
     private static SharedPreferences preferences;
     private  InsuranceData insuranceDataeCar;
-
+    private  keyboard  mykeyboard;
     private EditText editYear,editPrice;
     private MyReceiver receiver;
     private long timeStart,timeStartFirstLetterOP,timeStartFirstLetter;
@@ -44,12 +50,42 @@ public class eBike extends AppCompatActivity {
         registerReceiver(receiver,intentFilter);
         startService(new Intent(this,AccelerationService.class));
         setBtn();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setTextBox(); //set onTextChanged Method for measuring time between inputs
 }
 
+    @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
+    //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if( mykeyboard.getClostestDistance(ev.getX(),ev.getY())!=0) // only add touch events if they are within 100 distance units
+            insuranceDataeCar.addBtnPrecision( mykeyboard.getClostestDistance(ev.getX(),ev.getY()));
+
+        return super.dispatchTouchEvent(ev);
+    }
+
     private void setTextBox() {
+
+        mykeyboard=(keyboard) findViewById(R.id.keyboard1);
         editPrice=(EditText) findViewById(R.id.TextViewPrice);
         editYear=(EditText) findViewById(R.id.TextViewYear);
+        final InputConnection ic=editPrice.onCreateInputConnection(new EditorInfo());
+        final InputConnection ic2=editYear.onCreateInputConnection(new EditorInfo());
+        editPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if( hasFocus ){ showCustomKeyboard(v);
+                    mykeyboard.setInputConnection(ic);} else hideCustomKeyboard();
+            }
+        });
+        editYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if( hasFocus ){ showCustomKeyboard(v);
+                    mykeyboard.setInputConnection(ic2);} else hideCustomKeyboard();
+            }
+        });
         editPrice.addTextChangedListener(new TextWatcher() { //set up on textChanged Listener for Purchase Year edit box
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,6 +142,17 @@ public class eBike extends AppCompatActivity {
                 textsizeOP=s.length();
             }
         });
+    }
+    private void hideCustomKeyboard() {
+        mykeyboard.setVisibility(View.GONE);
+        mykeyboard.setEnabled(false);
+    }
+
+    private void showCustomKeyboard(View v) {
+
+        mykeyboard.setVisibility(View.VISIBLE);
+        mykeyboard.setEnabled(true);
+        if( v!=null ) ((InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     private void setBtn() {

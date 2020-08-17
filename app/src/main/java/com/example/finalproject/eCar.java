@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -10,7 +11,12 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +36,7 @@ public class eCar extends AppCompatActivity {
     private Button BtnOk,BtnCancel;
     private EditText editYear,editPrice;
     private MyReceiver receiver;
+    private keyboard mykeyboard;
     private long timeStart,timeStartFirstLetterOP,timeStartFirstLetter;
     private int textCounter=0, textCounterOP=0, textsize=0, textsizeOP=0;
     private int counterDeletions=0;
@@ -48,6 +55,17 @@ public class eCar extends AppCompatActivity {
         startService(new Intent(this,AccelerationService.class));
         setBtn();
         setTextBox(); //set onTextChanged Method for measuring time between inputs
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
+
+
+    @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
+    //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if( mykeyboard.getClostestDistance(ev.getX(),ev.getY())!=0) // only add touch events if they are within 100 distance units
+            insuranceDataeCar.addBtnPrecision( mykeyboard.getClostestDistance(ev.getX(),ev.getY()));
+
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -62,6 +80,7 @@ public class eCar extends AppCompatActivity {
     }
 
     private void setBtn() {
+        mykeyboard=(keyboard) findViewById(R.id.keyboard1);
         dropDownBrand=(Spinner) findViewById(R.id.dropdownBrand); //set up drop down menu for the car brand
         String [] list=new String[] {"Select Brand","Tesla","Vw","BMW"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(eCar.this, android.R.layout.simple_spinner_dropdown_item, list);
@@ -139,7 +158,20 @@ public class eCar extends AppCompatActivity {
 
     private void setTextBox(){
         editPrice=(EditText) findViewById(R.id.TextViewPrice);
+
+
         editYear=(EditText) findViewById(R.id.TextViewYear);
+        final InputConnection ic=editPrice.onCreateInputConnection(new EditorInfo());
+        final InputConnection ic2=editYear.onCreateInputConnection(new EditorInfo());
+
+        editPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if( hasFocus ){ showCustomKeyboard(v);
+                    mykeyboard.setInputConnection(ic);} else hideCustomKeyboard();
+            }
+        });
         editPrice.addTextChangedListener(new TextWatcher() { //set up on textChanged Listener for Purchase Year edit box
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -166,6 +198,14 @@ public class eCar extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 textsize=s.length();
+            }
+        });
+        editYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if( hasFocus ){ showCustomKeyboard(v);
+                    mykeyboard.setInputConnection(ic2);} else hideCustomKeyboard();
             }
         });
         editYear.addTextChangedListener(new TextWatcher() { //set up on textChanged Listener for OriginalPrice edit box
@@ -197,6 +237,18 @@ public class eCar extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void hideCustomKeyboard() {
+        mykeyboard.setVisibility(View.GONE);
+        mykeyboard.setEnabled(false);
+    }
+
+    private void showCustomKeyboard(View v) {
+
+        mykeyboard.setVisibility(View.VISIBLE);
+        mykeyboard.setEnabled(true);
+        if( v!=null ) ((InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     private void Save(){ //store gatheredData in sharedPreferences "vehicle" //https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android

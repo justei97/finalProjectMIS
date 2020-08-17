@@ -142,4 +142,16 @@
         android:text="ActivityTime Vehicle:"
         android:id="@+id/textViewActivityTimeVehicle"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:layout_alignBottom="@+id/histogram_view"
+        android:layout_alignLeft="@+id/histogram_view"
+        android:layout_marginBottom="-350dp"
+        android:layout_marginLeft="100dp"
+        android:text="AverageTouchDistance to Button (per touch in range of 100 units):"
+        android:id="@+id/textViewAvgBtnDistance"
+        />
 </RelativeLayout>
