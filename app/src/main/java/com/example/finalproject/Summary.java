@@ -78,13 +78,14 @@ public class Summary extends AppCompatActivity {
             long ButtonTime=0;
             for(int i=0;i<time2Button.size();i++)
             {ButtonTime=ButtonTime+time2Button.get(i);}
-            textViewBtnTime.setText(String.valueOf((ButtonTime/time2Button.size())/1000));
+            textViewBtnTime.setText(String.valueOf((ButtonTime/time2Button.size())));
             textViewActivityTime.setText(textViewActivityTime.getText()+"  "+String.valueOf(insuranceDataVertaps.getActivityTime()/1000));
             textViewActivityTimeVehicle.setText(textViewActivityTimeVehicle.getText()+"  "+String.valueOf(insuranceDataVehicle.getActivityTime()/1000));
 
         }
     }
 
+    //TODO: SD
     private double computeSD(float mean, int[] acclistInt) {
         double temp=0;
         //https://stackoverflow.com/questions/37930631/standard-deviation-of-an-arraylist

@@ -1,5 +1,7 @@
 package com.example.finalproject;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +11,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,8 +35,7 @@ public class Veritaps extends AppCompatActivity {
     private Button BtnNext,BtnCancel;
     private long timeStart,timeStartFirstLetterOP,timeStartFirstLetter;
     private int textCounter=0, textCounterOP=0, textsize=0, textsizeOP=0;
-
-
+    private  keyboard  mykeyboard;
     private int counterDeletions=0;
     private static SharedPreferences preferences;
     private  InsuranceData insuranceDataVeritaps;
@@ -37,19 +44,26 @@ public class Veritaps extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.veritaps);
+
         insuranceDataVeritaps=new InsuranceData();
         receiver = new MyReceiver();
         IntentFilter intentFilter = new IntentFilter("com.example.broadcast.Acceleration");
         registerReceiver(receiver,intentFilter);
 
-
         startService(new Intent(this,AccelerationService.class));
         timeStart=System.currentTimeMillis();
         setBtn();
-
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
     }
+    @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
+    //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        mykeyboard.getClostestDistance(ev.getX(),ev.getY());
+        return super.dispatchTouchEvent(ev);
+    }
+
+
     @Override
     protected void onDestroy() {
         try {
@@ -61,7 +75,17 @@ public class Veritaps extends AppCompatActivity {
 
     }
 
+
+
+    @SuppressLint("ClickableViewAccessibility")
     private void setBtn() {
+
+
+
+
+         mykeyboard=(keyboard) findViewById(R.id.keyboard1);
+
+
         //https://stackoverflow.com/questions/13377361/how-to-create-a-drop-down-list
         dropDown=(Spinner) findViewById(R.id.dropdown);
         String [] list=new String[] {"Select Item","eCar","eBike"};
@@ -95,6 +119,24 @@ public class Veritaps extends AppCompatActivity {
         });
 
         PurchaseYear=(EditText) findViewById(R.id.EditTextPurchaseYear);
+        PurchaseYear.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        PurchaseYear.setTextIsSelectable(true);
+        final InputConnection ic=PurchaseYear.onCreateInputConnection(new EditorInfo());
+        mykeyboard.setInputConnection(ic);
+
+        PurchaseYear.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                showCustomKeyboard(v);
+            }
+        });
+        PurchaseYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                                 if( hasFocus ){ showCustomKeyboard(v);
+                                     mykeyboard.setInputConnection(ic);} else hideCustomKeyboard();
+            }
+        });
         PurchaseYear.addTextChangedListener(new TextWatcher() { //set up on textChanged Listener for Purchase Year edit box
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -127,6 +169,25 @@ public class Veritaps extends AppCompatActivity {
 
 
         OrigininalPrice=(EditText) findViewById(R.id.EditTextPrice);
+        OrigininalPrice.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        OrigininalPrice.setTextIsSelectable(true);
+
+
+        final InputConnection ic2= OrigininalPrice.onCreateInputConnection(new EditorInfo());
+        mykeyboard.setInputConnection(ic2);
+
+        OrigininalPrice.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                showCustomKeyboard(v);
+            }
+        });
+        OrigininalPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if( hasFocus ) {showCustomKeyboard(v); mykeyboard.setInputConnection(ic2);} else hideCustomKeyboard();
+            }
+        });
         OrigininalPrice.addTextChangedListener(new TextWatcher() { //set up on textChanged Listener for OriginalPrice edit box
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -159,6 +220,21 @@ public class Veritaps extends AppCompatActivity {
 
     }
 
+
+
+    private void hideCustomKeyboard() {
+        mykeyboard.setVisibility(View.GONE);
+        mykeyboard.setEnabled(false);
+    }
+
+    private void showCustomKeyboard(View v) {
+
+
+        mykeyboard.setVisibility(View.VISIBLE);
+        mykeyboard.setEnabled(true);
+        if( v!=null ) ((InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
     private void Save(){ //store gatheredData in sharedPreferences  //https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android
 
         insuranceDataVeritaps.setActivityTime(System.currentTimeMillis()-timeStart);
@@ -172,6 +248,7 @@ public class Veritaps extends AppCompatActivity {
         editor.apply();
         unregisterReceiver(receiver);
     }
+
 
 
 

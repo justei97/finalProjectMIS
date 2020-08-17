@@ -93,7 +93,6 @@
         android:layout_marginBottom="-160dp"
         android:layout_marginLeft="300dp"
         android:id="@+id/textViewZMean"
-
         />
 
 
@@ -105,8 +104,7 @@
         android:layout_alignTop="@+id/histogram_view"
         android:layout_marginBottom="40dp"
         android:layout_marginRight="-100dp"
-        android:text="AverageTime between 1st and 2nd button hit"
-
+        android:text="AverageTime between 1st and 2nd button hit (ms)"
         />
 
     <TextView

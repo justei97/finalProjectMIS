@@ -95,6 +95,16 @@ public class Activity3 extends AppCompatActivity {
             }
         }
     });
+
+        Next=(Button) findViewById(R.id.BtnForward);
+        Next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Activity3.this, Activity4.class);
+                startActivity(intent);
+            }
+        });
+
         seekRed=(SeekBar) findViewById(R.id.myseekRed);
         seekRed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
