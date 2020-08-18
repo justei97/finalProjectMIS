@@ -5,7 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.ColorRes;
 
 //https://stackoverflow.com/questions/12545936/how-to-draw-graph-in-android
 public class GraphView extends View {
@@ -123,5 +126,11 @@ public class GraphView extends View {
             int ey = getHeight() - (int)(y1* factorY);
             canvas.drawLine(sx, sy, ex, ey, Z_Paint);
         }
+        Paint color=new Paint();
+        color.setColor(Color.BLACK);
+
+        canvas.drawText("for Scale: "+m_maxY/10,5,m_maxY,color);
+        canvas.drawText("0",5,getHeight()-5,color);
+
     }
 }
