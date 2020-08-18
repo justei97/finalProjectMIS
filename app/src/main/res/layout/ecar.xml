@@ -20,54 +20,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="10dp"/>
-
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dropdownBrand"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"/>
-
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dropdownModel"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="150dp"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/dropdownModel"
-
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-70dp"
-        android:hint="Enter Purchase Year"
-        android:text=""
-        android:id="@+id/TextViewYear"
-        />
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/dropdownCondition"
-        android:layout_alignBottom="@+id/dropdownModel"
-        android:layout_alignLeft="@+id/dropdownModel"
-        android:layout_marginBottom="-100dp"
-        android:layout_marginTop="150dp"/>
-
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/dropdownCondition"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-70dp"
-        android:hint="Enter Price"
-        android:text=""
-        android:id="@+id/TextViewPrice"
-        />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,6 +44,73 @@
         android:scaleX="1.5"
         android:scaleY="1.5"
         android:id="@+id/BtnCancel"/>
+
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            android:layout_marginTop="170dp"
+            android:layout_centerHorizontal="true"
+
+            >
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dropdownBrand"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="100dp"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dropdownModel"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="150dp"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/dropdownCondition"
+                android:scrollbars="vertical"
+                android:inputType="none"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="-70dp"
+                android:hint="Enter Purchase Year"
+                android:text=""
+                android:id="@+id/TextViewYear"
+                />
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dropdownCondition"
+                android:layout_alignBottom="@+id/dropdownModel"
+                android:layout_alignLeft="@+id/dropdownModel"
+                android:layout_marginBottom="-50dp"
+                android:layout_marginTop="150dp"/>
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/TextViewYear"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="-60dp"
+                android:scrollbars="vertical"
+                android:hint="Enter Price"
+
+                android:inputType="none"
+                android:text=""
+                android:id="@+id/TextViewPrice"
+                />
+
+
+        </RelativeLayout>
+
+
 
     <com.example.finalproject.keyboard
         android:id="@+id/keyboard1"

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,6 +41,7 @@ public class eBike extends AppCompatActivity {
     private int textCounter=0, textCounterOP=0, textsize=0, textsizeOP=0;
     private int counterDeletions=0;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ebike);
@@ -50,24 +52,36 @@ public class eBike extends AppCompatActivity {
         registerReceiver(receiver,intentFilter);
         startService(new Intent(this,AccelerationService.class));
         setBtn();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //hide  android softkeyboard
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         setTextBox(); //set onTextChanged Method for measuring time between inputs
 }
 
     @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
     //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if( mykeyboard.getClostestDistance(ev.getX(),ev.getY())!=0) // only add touch events if they are within 100 distance units
-            insuranceDataeCar.addBtnPrecision( mykeyboard.getClostestDistance(ev.getX(),ev.getY()));
-
+        if(ev.getAction()==MotionEvent.ACTION_DOWN) {
+            if (mykeyboard.getClostestDistance(ev.getX(), ev.getY()) != 0) // only add touch events if they are within 100 distance units
+            {   insuranceDataeCar.addBtnPrecision(mykeyboard.getClostestDistance(ev.getX(), ev.getY()));
+            Log.d(String.valueOf(mykeyboard.getClostestDistance(ev.getX(), ev.getY())),"addBike");
+        }}
         return super.dispatchTouchEvent(ev);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setTextBox() {
 
         mykeyboard=(keyboard) findViewById(R.id.keyboard1);
         editPrice=(EditText) findViewById(R.id.TextViewPrice);
         editYear=(EditText) findViewById(R.id.TextViewYear);
+        editYear.setShowSoftInputOnFocus(false);
+        editPrice.setShowSoftInputOnFocus(false);
+
         final InputConnection ic=editPrice.onCreateInputConnection(new EditorInfo());
         final InputConnection ic2=editYear.onCreateInputConnection(new EditorInfo());
         editPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {

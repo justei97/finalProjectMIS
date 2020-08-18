@@ -1,16 +1,22 @@
 package com.example.finalproject;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Summary extends AppCompatActivity {
     private TextView textViewBtnTime,textViewActivityTime,textViewXMean,textViewYMean,textViewZMean,textViewActivityTimeVehicle, AvgBtnDst ;
-
+    private Button Back;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,14 @@ public class Summary extends AppCompatActivity {
             textViewYMean=(TextView) findViewById(R.id.textViewYMean);
             textViewZMean=(TextView)findViewById(R.id.textViewZMean);
             AvgBtnDst=(TextView)findViewById(R.id.textViewAvgBtnDistance);
+            Back=(Button) findViewById(R.id.BtnBack);
+            Back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            });
     }
 
 
@@ -42,11 +56,17 @@ public class Summary extends AppCompatActivity {
 
           //combine Lists from Vehicle+Veritaps
             ArrayList<Float> AcclistX = insuranceDataVertaps.getxAcceleration();
-            AcclistX.addAll(insuranceDataVehicle.getxAcceleration());
+            ArrayList<Float> AcclistX2=insuranceDataVehicle.getxAcceleration();
             ArrayList<Float> AcclistY = insuranceDataVertaps.getyAcceleration();
-            AcclistY.addAll(insuranceDataVehicle.getyAcceleration());
+            ArrayList<Float> AcclistY2=insuranceDataVehicle.getyAcceleration();
             ArrayList<Float> AcclistZ = insuranceDataVertaps.getzAcceleration();
-            AcclistZ.addAll(insuranceDataVehicle.getzAcceleration());
+            ArrayList<Float> AcclistZ2=insuranceDataVehicle.getzAcceleration();
+            for(int i=0;i<AcclistX2.size();i++)
+            {
+                AcclistX.add(AcclistX2.get(i));
+                AcclistY.add(AcclistY2.get(i));
+                AcclistZ.add(AcclistZ2.get(i));
+            }
 
             int[] AcclistXInt= new int[AcclistX.size()];
             int[] AcclistYInt= new int[AcclistY.size()];
@@ -55,20 +75,26 @@ public class Summary extends AppCompatActivity {
             float maxX=0,SDx=0,SDz=0;
             for(int i=0;i<AcclistX.size();i++)
             {
-                AcclistXInt[i]=((Integer) Math.round(AcclistX.get(i)*10)); //*10 for better visibility of differences (due to cast to int (necessary for selecting pixel in graph))
                 meanX=meanX+AcclistX.get(i);
+                meanY=meanY+AcclistY.get(i);
+                meanZ=meanZ+AcclistZ.get(i);
                 if(maxX<AcclistX.get(i))
                     maxX=AcclistX.get(i);
+
+                AcclistXInt[i]=((Integer) Math.round(AcclistX.get(i)*10)); //*10 for better visibility of differences (due to cast to int (necessary for selecting pixel in graph))
+
+
                 AcclistYInt[i]=((Integer) Math.round(AcclistY.get(i)*10));
-                meanY=meanY+AcclistY.get(i);
+
                 AcclistZInt[i]=((Integer) Math.round(AcclistZ.get(i)*10));
-                meanZ=meanZ+AcclistZ.get(i);
+
             }
 
-
-            textViewXMean.setText("Mean Acceleration X-Axis:"+String.valueOf( meanX/AcclistX.size())+"     Max: "+String.valueOf(maxX)+"   SD of X-Acc: "+computeSD(meanX, AcclistXInt));
+            double meanXd=meanX/AcclistX.size();
+            double meanzd=meanZ/AcclistZ.size();
+            textViewXMean.setText("Mean Acceleration X-Axis:"+String.valueOf( meanX/AcclistX.size())+"     Max: "+String.valueOf(maxX)+"   SD of X-Acc: "+computeSD(meanXd, AcclistX));
             textViewYMean.setText("Mean Acceleration Y-Axis:"+String.valueOf( meanY/AcclistY.size()));
-            textViewZMean.setText("Mean Acceleration Z-Axis:"+String.valueOf( meanZ/AcclistZ.size())+"   SD of Z-Acc: "+computeSD(meanZ, AcclistZInt));
+            textViewZMean.setText("Mean Acceleration Z-Axis:"+String.valueOf( meanZ/AcclistZ.size())+"   SD of Z-Acc: "+computeSD(meanzd, AcclistZ));
             GraphView graphView = (GraphView)findViewById(R.id.histogram_view);
             graphView.setGraphArray(1,AcclistXInt);
             graphView.setGraphArray(2,AcclistYInt);
@@ -82,36 +108,55 @@ public class Summary extends AppCompatActivity {
             textViewBtnTime.setText(String.valueOf((ButtonTime/time2Button.size())));
             textViewActivityTime.setText(textViewActivityTime.getText()+"  "+String.valueOf(insuranceDataVertaps.getActivityTime()/1000));
             textViewActivityTimeVehicle.setText(textViewActivityTimeVehicle.getText()+"  "+String.valueOf(insuranceDataVehicle.getActivityTime()/1000));
-            ArrayList<Long> BtnVehic=insuranceDataVehicle.getButtonTime();
-            BtnVehic.addAll(insuranceDataVertaps.getButtonTime());
-            long dist=0;
+
+            ArrayList<Double> BtnVehic=insuranceDataVehicle.getBtnPrecision();
+            ArrayList<Double> BtnVeritaps=insuranceDataVertaps.getBtnPrecision();
+
+
+            double dist=0;
+            int count=0;
             for(int i=0;i<BtnVehic.size();i++)
-            {
+             {
+                 if(BtnVehic.get(i) !=0)
                 dist=dist+BtnVehic.get(i);
+
+                else count=count+1;
+
+
             }
-            AvgBtnDst.setText(AvgBtnDst.getText()+String.valueOf(dist/BtnVehic.size()));
+            for(int i=0;i<BtnVeritaps.size();i++)
+            {
+                if(BtnVeritaps.get(i) !=0)
+                dist=dist+BtnVeritaps.get(i);
+            else count=count+1;
+
+
+            }
+
+            AvgBtnDst.setText(AvgBtnDst.getText()+String.valueOf(dist/(BtnVehic.size()+BtnVeritaps.size()-count)));
 
 
         }
     }
 
     //TODO: SD
-    private double computeSD(float mean, int[] acclistInt) {
+    private double computeSD(double mean, ArrayList <Float> acclistInt) {
         double temp=0;
+        int size=acclistInt.size();
         //https://stackoverflow.com/questions/37930631/standard-deviation-of-an-arraylist
-        for (int i = 0; i < acclistInt.length; i++)
+        for (int i = 0; i < size; i++)
         {
-            int val = acclistInt [i];
+         float temp1=acclistInt.get(i);
+        double temp2=temp1;
+         double pow=temp2-mean;
+        temp= temp+Math.pow(pow,2);
 
-            // Step 2:
-            double squrDiffToMean = Math.pow(val - mean, 2);
 
-            // Step 3:
-            temp += squrDiffToMean;
         }
-        double meanOfDiffs = (double) temp / (double) (acclistInt.length);
+       double variance= temp/size;
+
 
         // Step 5:
-        return Math.sqrt(meanOfDiffs);
+        return Math.sqrt(variance);
     }
 }

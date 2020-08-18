@@ -9,149 +9,151 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+
         app:popupTheme="@style/AppTheme.PopupOverlay" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="eSummary"
-        android:scaleY="2"
-        android:scaleX="2"
-        android:id="@+id/textView1"
+        android:text="e-Summary"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"/>
-
-
-    <com.example.finalproject.GraphView
-        android:id="@+id/histogram_view"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="100dp"
-        android:background="@android:color/transparent"
         android:layout_alignParentLeft="true" />
-
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/histogram_view"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="-100dp"
-        android:text="X-Acceleration"
-        android:textColor="#1226E2"
-        />
-    <TextView
+        android:id="@+id/BtnBack"
+        android:text="Back to Start"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="500dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:scrollbarStyle="insideOverlay"
+
+        android:id="@+id/scrollView">
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/histogram_view"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_marginBottom="-100dp"
-        android:layout_marginLeft="300dp"
-        android:text=""
-        android:id="@+id/textViewXMean"
-        />
+        >
+        <com.example.finalproject.GraphView
+            android:id="@+id/histogram_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="100dp"
+            android:background="@android:color/transparent"
+            android:layout_alignParentLeft="true" />
 
-    <TextView
-        android:id="@+id/textViewYMean"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/histogram_view"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_marginLeft="300dp"
-        android:layout_marginBottom="-130dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/histogram_view"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_marginBottom="60dp"
-        android:layout_marginRight="-100dp"
-        android:text="Y-Acceleration"
-
-        />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/histogram_view"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_marginBottom="40dp"
-        android:layout_marginRight="-100dp"
-        android:text="Z-Acceleration"
-        android:textColor="#2FFF06"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/histogram_view"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_marginBottom="-160dp"
-        android:layout_marginLeft="300dp"
-        android:id="@+id/textViewZMean"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/histogram_view"
+            android:layout_marginBottom="-30dp"
+            android:text="X-Acceleration"
+            android:textColor="#1226E2"
+            android:id="@+id/XAcceleration"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/XAcceleration"
+            android:layout_marginBottom="-20dp"
+            android:text="Y-Acceleration"
+            android:id="@+id/YAccelleration"
+            android:textColor="#FC0808"
+            />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="90dp"
-        android:layout_alignRight="@+id/histogram_view"
-        android:layout_alignTop="@+id/histogram_view"
-        android:layout_marginBottom="40dp"
-        android:layout_marginRight="-100dp"
-        android:text="AverageTime between 1st and 2nd button hit (ms)"
-        />
+        <TextView
+            android:id="@+id/zAcceleration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/YAccelleration"
+            android:layout_marginBottom="-20dp"
+            android:text="Z-Acceleration"
+            android:textColor="#2FFF06" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="90dp"
-        android:layout_alignRight="@+id/histogram_view"
-        android:layout_alignTop="@+id/histogram_view"
-        android:layout_marginBottom="40dp"
-        android:layout_marginRight="-130dp"
-        android:text=""
-        android:id="@+id/textViewAvgTime2Btn"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/zAcceleration"
+            android:layout_marginBottom="-30dp"
+            android:text=""
+            android:id="@+id/textViewXMean"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="90dp"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_alignLeft="@+id/histogram_view"
-        android:layout_marginBottom="-100dp"
-        android:layout_marginLeft="100dp"
-        android:text="ActivityTime Veritaps:"
-        android:id="@+id/textViewActivityTime"
-        />
+        <TextView
+            android:id="@+id/textViewYMean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textViewXMean"
+            android:layout_marginBottom="-30dp"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="90dp"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_alignLeft="@+id/histogram_view"
-        android:layout_marginBottom="-200dp"
-        android:layout_marginLeft="100dp"
-        android:text="ActivityTime Vehicle:"
-        android:id="@+id/textViewActivityTimeVehicle"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textViewYMean"
+            android:layout_marginBottom="-30dp"
+            android:id="@+id/textViewZMean"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="200dp"
-        android:layout_alignBottom="@+id/histogram_view"
-        android:layout_alignLeft="@+id/histogram_view"
-        android:layout_marginBottom="-350dp"
-        android:layout_marginLeft="100dp"
-        android:text="AverageTouchDistance to Button (per touch in range of 100 units):"
-        android:id="@+id/textViewAvgBtnDistance"
-        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textViewZMean"
+            android:layout_marginBottom="-30dp"
+            android:id="@+id/AvgBtnTIme"
+            android:text="AverageTime between 1st and 2nd button hit (ms)"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="90dp"
+            android:layout_alignBottom="@+id/AvgBtnTIme"
+            android:layout_marginBottom="-30dp"
+            android:text=""
+            android:id="@+id/textViewAvgTime2Btn"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="90dp"
+            android:layout_alignBottom="@+id/textViewAvgBtnDistance"
+            android:layout_marginBottom="-20dp"
+            android:layout_marginLeft="100dp"
+            android:id="@+id/textViewActivityTime"
+            />
+
+        <TextView
+            android:layout_alignBottom="@+id/textViewAvgBtnDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-30dp"
+            android:maxWidth="90dp"
+            android:id="@+id/textViewActivityTimeVehicle"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="200dp"
+            android:layout_alignBottom="@+id/textViewAvgTime2Btn"
+            android:layout_marginBottom="-80dp"
+            android:text="AverageTouchDistance to Button (per touch in range of 200 units):"
+            android:id="@+id/textViewAvgBtnDistance"
+            />
+    </RelativeLayout>
+    </ScrollView>
+
+
+
 </RelativeLayout>

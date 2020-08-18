@@ -25,16 +25,17 @@
         <activity
             android:name=".Veritaps"
             android:label="@string/title_Veritaps"
-
-            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".eCar"
             android:label="@string/title_eCar"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".eBike"
             android:label="@string/title_eBike"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Summary"

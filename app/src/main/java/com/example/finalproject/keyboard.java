@@ -144,17 +144,25 @@ public class keyboard extends LinearLayout implements View.OnClickListener, View
     }
 
     public double getClostestDistance(float x, float y){ //get the closest button from input motion event
-        double distance=0;
+        double distance=200;
+        int coordinates []=new int [2];
+
         for(int i=0;i<buttons.length;i++)
-        {
-            int BtnX=(int) buttons[i].getX()+buttons[i].getWidth()/2; //compute middle of Btn
-            int BtnY=(int) buttons[i].getY()+buttons[i].getHeight();
+        {     buttons[i].getLocationOnScreen(coordinates); //find absolute button position on the device screen
+
+                //find center position of Btn
+            int BtnX=(int)coordinates[0]+buttons[i].getWidth()/2; //compute middle of Btn
+            int BtnY=(int) coordinates[1]+buttons[i].getHeight()/2;
+
+            //and compare them with the recognized touch position
             double d=Math.sqrt((Math.pow(BtnX-x,2)+Math.pow(BtnY-y,2)));
-           if(distance>d)
+
+            if(d<distance)
            { distance=d;}
 
         }
-        if(distance<100) //Assumption: if distance from touch position to any keyboard button is greater than 100 then the touch wasnt on purpose...
+
+        if(distance<200) //Assumption: if distance from touch position to any keyboard button is greater than 100 then the touch wasnt on purpose...
             return distance;
         else return 0;
 

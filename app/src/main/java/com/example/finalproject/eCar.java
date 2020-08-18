@@ -43,6 +43,7 @@ public class eCar extends AppCompatActivity {
     public eCar() {
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ecar);
@@ -55,16 +56,24 @@ public class eCar extends AppCompatActivity {
         startService(new Intent(this,AccelerationService.class));
         setBtn();
         setTextBox(); //set onTextChanged Method for measuring time between inputs
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //hide  android softkeyboard
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 
     @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
     //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if( mykeyboard.getClostestDistance(ev.getX(),ev.getY())!=0) // only add touch events if they are within 100 distance units
-            insuranceDataeCar.addBtnPrecision( mykeyboard.getClostestDistance(ev.getX(),ev.getY()));
-
+        if(ev.getAction()==MotionEvent.ACTION_DOWN) {
+            if (mykeyboard.getClostestDistance(ev.getX(), ev.getY()) != 0) // only add touch events if they are within 100 distance units
+            {    insuranceDataeCar.addBtnPrecision(mykeyboard.getClostestDistance(ev.getX(), ev.getY()));
+            Log.d(String.valueOf(mykeyboard.getClostestDistance(ev.getX(), ev.getY())),"addCar");
+        }}
         return super.dispatchTouchEvent(ev);
     }
 
@@ -156,6 +165,7 @@ public class eCar extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setTextBox(){
         editPrice=(EditText) findViewById(R.id.TextViewPrice);
 
@@ -163,7 +173,8 @@ public class eCar extends AppCompatActivity {
         editYear=(EditText) findViewById(R.id.TextViewYear);
         final InputConnection ic=editPrice.onCreateInputConnection(new EditorInfo());
         final InputConnection ic2=editYear.onCreateInputConnection(new EditorInfo());
-
+        editYear.setShowSoftInputOnFocus(false);
+        editPrice.setShowSoftInputOnFocus(false);
         editPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
