@@ -24,6 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
@@ -92,12 +94,12 @@ public class Veritaps extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ClickableViewAccessibility")
     private void setBtn() {
-
+        OrigininalPrice=(EditText) findViewById(R.id.EditTextPrice);
          mykeyboard=(keyboard) findViewById(R.id.keyboard1);
-
+        PurchaseYear=(EditText) findViewById(R.id.EditTextPurchaseYear);
         //https://stackoverflow.com/questions/13377361/how-to-create-a-drop-down-list
         dropDown=(Spinner) findViewById(R.id.dropdown);
-        String [] list=new String[] {"Select Item","eCar","eBike"};
+        String [] list=new String[] {"Select InsuranceType","eCar","eBike"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, list);
         dropDown.setAdapter(adapter);
         BtnNext=(Button) findViewById(R.id.BtnOk);
@@ -110,11 +112,14 @@ public class Veritaps extends AppCompatActivity {
                 Intent intent=new Intent(getBaseContext(), eCar.class);
                 startActivity(intent);
             }
-                if(dropDown.getSelectedItem().toString()=="eBike")
+                else {if(dropDown.getSelectedItem().toString()=="eBike")
                 {   Save();
                     Intent intent=new Intent(getBaseContext(), eBike.class);
                     startActivity(intent);
+                }else {
+                    Toast.makeText(Veritaps.this, "Please select an InsuranceType first or enter something in the EditBoxes", Toast.LENGTH_SHORT).show();
                 }
+            }
             }
         });
 
@@ -127,7 +132,7 @@ public class Veritaps extends AppCompatActivity {
             }
         });
 
-        PurchaseYear=(EditText) findViewById(R.id.EditTextPurchaseYear);
+
         PurchaseYear.setRawInputType(InputType.TYPE_CLASS_TEXT);
         PurchaseYear.setTextIsSelectable(true);
         final InputConnection ic=PurchaseYear.onCreateInputConnection(new EditorInfo());
@@ -179,7 +184,7 @@ public class Veritaps extends AppCompatActivity {
 
 
 
-        OrigininalPrice=(EditText) findViewById(R.id.EditTextPrice);
+
         OrigininalPrice.setRawInputType(InputType.TYPE_CLASS_TEXT);
         OrigininalPrice.setTextIsSelectable(true);
         OrigininalPrice.setShowSoftInputOnFocus(false);
