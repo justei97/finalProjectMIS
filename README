@@ -1,1 +1,24 @@
 repo for final project MIS
+
+implemented features: 
+· Num-pad: button precision (mean, min)
+· Reaction Time (for each Activity+ time between 1st and 2nd button click)
+· Acceleration: x-acceleration (mean, max, SD)
+· Acceleration: z-acceleration (SD)
+
+
+Measurement for Input Data of eInsurance for eCar/eBike as suggested by the Veritaps study
+using
+· Service with SensorEventListener for broadcasting acceleration data to activity
+
+· custom keyboard and method dispatchedTouchEvent to receive/calculate precision data for each touch
+  event before it gets processed by keyboard view 
+
+· onTextChangedListener for the editBoxes to measure time between 1st and 2nd input
+
+· object of class InsuranceData to categorize and store data 
+
+· sharedPreferences to safe data(object of InsuranceData using json) for each activity
+
+· summary class + custom graph class (used by summary) for displaying results of measurements
+  received during input 
