@@ -123,34 +123,39 @@
             android:id="@+id/textViewAvgTime2Btn"
             />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="90dp"
-            android:layout_alignBottom="@+id/textViewAvgBtnDistance"
-            android:layout_marginBottom="-20dp"
-            android:layout_marginLeft="100dp"
-            android:id="@+id/textViewActivityTime"
-            />
 
-        <TextView
-            android:layout_alignBottom="@+id/textViewAvgBtnDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="-30dp"
-            android:maxWidth="90dp"
-            android:id="@+id/textViewActivityTimeVehicle"
-            />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="200dp"
+
             android:layout_alignBottom="@+id/textViewAvgTime2Btn"
             android:layout_marginBottom="-80dp"
             android:text="AverageTouchDistance to Button (per touch in range of 200 units):"
             android:id="@+id/textViewAvgBtnDistance"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-30dp"
+            android:layout_alignParentEnd="true"
+            android:maxWidth="200dp"
+            android:text="Time needed for Activity Veritaps(s): "
+            android:id="@+id/textViewActivityTime"
+
+            android:layout_alignParentRight="true" />
+        <TextView
+            android:maxWidth="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="-20dp"
+            android:layout_marginBottom="-30dp"
+            android:text="Time needed for Activity eVehicle(s): "
+            android:id="@+id/textViewActivityTimeVehicle"
+            />
+
     </RelativeLayout>
     </ScrollView>
 
