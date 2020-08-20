@@ -19,10 +19,6 @@
             android:label="@string/title_activity_3"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".Activity4"
-            android:label="@string/title_activity_4"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".Veritaps"
             android:label="@string/title_Veritaps"
             android:windowSoftInputMode="stateAlwaysHidden"

@@ -27,7 +27,7 @@ public class Summary extends AppCompatActivity {
     }
 
     private void setBtn() {
-            textViewBtnTime = (TextView) findViewById(R.id.textViewAvgTime2Btn);
+            textViewBtnTime = (TextView) findViewById(R.id.AvgBtnTIme);
             textViewActivityTime = (TextView) findViewById(R.id.textViewActivityTime);
             textViewActivityTimeVehicle = (TextView) findViewById(R.id.textViewActivityTimeVehicle);
             textViewXMean=(TextView)findViewById(R.id.textViewXMean);
@@ -105,7 +105,7 @@ public class Summary extends AppCompatActivity {
             long ButtonTime=0;
             for(int i=0;i<time2Button.size();i++)
             {ButtonTime=ButtonTime+time2Button.get(i);}
-            textViewBtnTime.setText(String.valueOf((ButtonTime/time2Button.size())));
+            textViewBtnTime.setText(textViewBtnTime.getText()+" "+String.valueOf((ButtonTime/time2Button.size())));
             textViewActivityTime.setText(textViewActivityTime.getText()+"  "+String.valueOf(insuranceDataVertaps.getActivityTime()/1000));
             textViewActivityTimeVehicle.setText(textViewActivityTimeVehicle.getText()+"  "+String.valueOf(insuranceDataVehicle.getActivityTime()/1000));
 

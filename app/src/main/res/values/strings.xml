@@ -16,4 +16,13 @@
     <string name="title_eBike">ebike</string>
     <string name="title_Summary" />
     <string name="title_activity_4">activity4</string>
+    <string name="averagetouchdistance_to_button_per_touch_in_range_of_200_units">AverageTouchDistance to Button (per touch in range of 200 units):</string>
+    <string name="time_needed_for_activity_veritaps_sec">Time needed for Activity Veritaps(sec):</string>
+    <string name="time_needed_for_activity_evehicle_sec">Time needed for Activity eVehicle(sec):</string>
+    <string name="averagetime_between_1st_and_2nd_button_hit_ms">AverageTime between 1st and 2nd button hit (ms)</string>
+    <string name="z_acceleration">Z-Acceleration</string>
+    <string name="y_acceleration">Y-Acceleration</string>
+    <string name="x_acceleration">X-Acceleration</string>
+    <string name="back_to_start">Back to Start</string>
+    <string name="e_summary">e-Summary</string>
 </resources>

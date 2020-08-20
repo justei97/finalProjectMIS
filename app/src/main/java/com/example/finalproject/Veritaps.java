@@ -56,13 +56,12 @@ public class Veritaps extends AppCompatActivity {
         timeStart=System.currentTimeMillis();
         setBtn();
         //hide  android softkeyboard
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+        hideSoftKeyboard();
+
     }
+
+
+
 
     @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
     //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
@@ -232,8 +231,6 @@ public class Veritaps extends AppCompatActivity {
                 textsizeOP=s.length();
             }
         });
-
-
     }
 
 
@@ -249,6 +246,8 @@ public class Veritaps extends AppCompatActivity {
         if( v!=null ) ((InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
+
+
     private void Save(){ //store gatheredData in sharedPreferences  //https://stackoverflow.com/questions/7145606/how-do-you-save-store-objects-in-sharedpreferences-on-android
 
         insuranceDataVeritaps.setActivityTime(System.currentTimeMillis()-timeStart);
@@ -263,6 +262,15 @@ public class Veritaps extends AppCompatActivity {
         unregisterReceiver(receiver);
     }
 
+
+    private void hideSoftKeyboard() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 
 

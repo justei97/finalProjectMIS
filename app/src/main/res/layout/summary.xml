@@ -14,59 +14,73 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="e-Summary"
+        android:text="@string/e_summary"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="5dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/BtnBack"
-        android:text="Back to Start"
+        android:text="@string/back_to_start"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true" />
 
     <ScrollView
+
         android:layout_width="wrap_content"
-        android:layout_height="500dp"
-        android:layout_centerVertical="true"
+        android:layout_height="600dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp"
+        android:paddingBottom="10dp"
         android:layout_centerHorizontal="true"
         android:scrollbarStyle="insideOverlay"
+        android:fillViewport="true"
+        android:id="@+id/scrollView"
 
-        android:id="@+id/scrollView">
+        >
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        android:orientation="vertical"
+       >
+
+
         <com.example.finalproject.GraphView
             android:id="@+id/histogram_view"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_alignParentStart="true"
+
+            android:layout_alignTop="@+id/textViewAvgBtnDistance"
             android:layout_marginTop="100dp"
+
             android:background="@android:color/transparent"
             android:layout_alignParentLeft="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignBottom="@+id/histogram_view"
             android:layout_marginBottom="-30dp"
-            android:text="X-Acceleration"
+            android:text="@string/x_acceleration"
             android:textColor="#1226E2"
             android:id="@+id/XAcceleration"
-            />
+            android:layout_alignParentLeft="true" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/XAcceleration"
             android:layout_marginBottom="-20dp"
-            android:text="Y-Acceleration"
+            android:text="@string/y_acceleration"
             android:id="@+id/YAccelleration"
             android:textColor="#FC0808"
-            />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
 
 
         <TextView
@@ -75,8 +89,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/YAccelleration"
             android:layout_marginBottom="-20dp"
-            android:text="Z-Acceleration"
-            android:textColor="#2FFF06" />
+            android:text="@string/z_acceleration"
+            android:layout_alignParentStart="true"
+            android:textColor="#2FFF06"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,54 +124,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textViewZMean"
+            android:layout_alignParentStart="true"
             android:layout_marginBottom="-30dp"
             android:id="@+id/AvgBtnTIme"
-            android:text="AverageTime between 1st and 2nd button hit (ms)"
-            />
+            android:text="@string/averagetime_between_1st_and_2nd_button_hit_ms"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="90dp"
             android:layout_alignBottom="@+id/AvgBtnTIme"
             android:layout_marginBottom="-30dp"
-            android:text=""
             android:id="@+id/textViewAvgTime2Btn"
             />
 
 
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="200dp"
-
-            android:layout_alignBottom="@+id/textViewAvgTime2Btn"
-            android:layout_marginBottom="-80dp"
-            android:text="AverageTouchDistance to Button (per touch in range of 200 units):"
-            android:id="@+id/textViewAvgBtnDistance"
-            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="-30dp"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:maxWidth="200dp"
-            android:text="Time needed for Activity Veritaps(s): "
+            android:text="@string/time_needed_for_activity_veritaps_sec"
             android:id="@+id/textViewActivityTime"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true" />
 
-            android:layout_alignParentRight="true" />
         <TextView
             android:maxWidth="200dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="-20dp"
-            android:layout_marginBottom="-30dp"
-            android:text="Time needed for Activity eVehicle(s): "
+            android:layout_marginBottom="-80dp"
+            android:layout_alignBottom="@+id/textViewActivityTime"
+            android:text="@string/time_needed_for_activity_evehicle_sec"
             android:id="@+id/textViewActivityTimeVehicle"
-            />
 
+           />
+
+        <TextView
+            android:id="@+id/textViewAvgBtnDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textViewActivityTimeVehicle"
+            android:layout_marginBottom="-80dp"
+            android:text="@string/averagetouchdistance_to_button_per_touch_in_range_of_200_units"
+
+            />
     </RelativeLayout>
     </ScrollView>
 

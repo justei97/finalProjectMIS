@@ -29,9 +29,10 @@ public class Activity3 extends AppCompatActivity {
     private TextView Acceleration, result,Timer;
     private MyReceiver receiver;
     private long timeStart, timeEnd;
-    private Button Next,Back;
+    private Button Back;
     private SeekBar seekRed,seekBlue; //https://stackoverflow.com/questions/14910226/how-to-make-slide-to-unlock-button-in-android
   //  @SuppressLint("ClickableViewAccessibility")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +44,6 @@ public class Activity3 extends AppCompatActivity {
         registerUIElements();
         startService(new Intent(this,AccelerationService.class));
         timeStart=System.currentTimeMillis();
-
-
-
-
-
     }
 
     private void registerUIElements() {
@@ -96,14 +92,7 @@ public class Activity3 extends AppCompatActivity {
         }
     });
 
-        Next=(Button) findViewById(R.id.BtnForward);
-        Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(Activity3.this, Activity4.class);
-                startActivity(intent);
-            }
-        });
+
 
         seekRed=(SeekBar) findViewById(R.id.myseekRed);
         seekRed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
