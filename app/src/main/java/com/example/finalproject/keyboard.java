@@ -13,8 +13,7 @@ import android.view.inputmethod.InputConnection;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+//source: https://stackoverflow.com/questions/9577304/how-can-you-make-a-custom-keyboard-in-android
 public class keyboard extends LinearLayout implements View.OnClickListener, View.OnTouchListener{
     private Button buttons[] = new Button[12];
     // keyboard keys (buttons)

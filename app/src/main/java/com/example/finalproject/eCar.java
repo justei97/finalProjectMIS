@@ -168,8 +168,6 @@ public class eCar extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setTextBox(){
         editPrice=(EditText) findViewById(R.id.TextViewPrice);
-
-
         editYear=(EditText) findViewById(R.id.TextViewYear);
         final InputConnection ic=editPrice.onCreateInputConnection(new EditorInfo());
         final InputConnection ic2=editYear.onCreateInputConnection(new EditorInfo());

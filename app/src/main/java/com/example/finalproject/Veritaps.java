@@ -68,7 +68,7 @@ public class Veritaps extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent ev) {
     if(ev.getAction()==MotionEvent.ACTION_DOWN) { //only consider start of touch events (action_down)
 
-        if (mykeyboard.getClostestDistance(ev.getX(), ev.getY()) != 0) // only add touch events if they are within 100 distance units (wether they are intended or not
+        if (mykeyboard.getClostestDistance(ev.getX(), ev.getY()) != 0) // only add touch events if they are within 200 distance units (wether they are intended or not
         {   insuranceDataVeritaps.addBtnPrecision(mykeyboard.getClostestDistance(ev.getX(), ev.getY()));
         Log.d(String.valueOf(mykeyboard.getClostestDistance(ev.getX(), ev.getY())),"addVeritaps");}
     }
@@ -94,7 +94,7 @@ public class Veritaps extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     private void setBtn() {
         OrigininalPrice=(EditText) findViewById(R.id.EditTextPrice);
-         mykeyboard=(keyboard) findViewById(R.id.keyboard1);
+        mykeyboard=(keyboard) findViewById(R.id.keyboard1);
         PurchaseYear=(EditText) findViewById(R.id.EditTextPurchaseYear);
         //https://stackoverflow.com/questions/13377361/how-to-create-a-drop-down-list
         dropDown=(Spinner) findViewById(R.id.dropdown);
@@ -236,6 +236,7 @@ public class Veritaps extends AppCompatActivity {
 
 
     private void hideCustomKeyboard() {
+
         mykeyboard.setVisibility(View.GONE);
         mykeyboard.setEnabled(false);
     }

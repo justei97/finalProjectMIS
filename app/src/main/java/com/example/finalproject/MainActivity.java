@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button StartBtn,BtnVeritaps;
+    private Button BtnVeritaps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,14 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setBTN() {
-    StartBtn=(Button) findViewById(R.id.btnStart);
-    StartBtn.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent=new Intent(getBaseContext(), Activity2.class);
-            startActivity(intent);
-        }
-    });
+
     BtnVeritaps=(Button) findViewById(R.id.btnVeritaps);
     BtnVeritaps.setOnClickListener(new View.OnClickListener() {
         @Override
