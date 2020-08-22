@@ -54,9 +54,8 @@
         android:layout_alignBottom="@+id/dropdown"
         android:layout_alignLeft="@+id/dropdown"
         android:layout_marginBottom="-140dp"
-
         android:text=""
-        android:hint="EnterOriginal Price"
+        android:hint="Enter Original Price"
         android:id="@+id/EditTextPrice"
         />
 

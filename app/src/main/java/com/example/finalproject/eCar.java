@@ -58,14 +58,17 @@ public class eCar extends AppCompatActivity {
         setTextBox(); //set onTextChanged Method for measuring time between inputs
         //hide  android softkeyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        hideSoftKeyboard();
+
+    }
+
+    public void hideSoftKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
-
     @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
     //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -176,7 +179,7 @@ public class eCar extends AppCompatActivity {
         editPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
+                hideSoftKeyboard();
                 if( hasFocus ){ showCustomKeyboard(v);
                     mykeyboard.setInputConnection(ic);} else hideCustomKeyboard();
             }
@@ -212,7 +215,7 @@ public class eCar extends AppCompatActivity {
         editYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
+                hideSoftKeyboard();
                 if( hasFocus ){ showCustomKeyboard(v);
                     mykeyboard.setInputConnection(ic2);} else hideCustomKeyboard();
             }
@@ -290,7 +293,7 @@ public class eCar extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if("com.example.broadcast.Acceleration".equals(intent.getAction())) {
-                Log.d("Receive","onReceive");
+
                 float x = intent.getFloatExtra("x", 0);
                 float y =intent.getFloatExtra("y",0);
                 float z=intent.getFloatExtra("z",0);

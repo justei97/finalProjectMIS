@@ -52,14 +52,16 @@ public class eBike extends AppCompatActivity {
         setBtn();
         //hide  android softkeyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+       hideSoftKeyboard();
+        setTextBox(); //set onTextChanged Method for measuring time between inputs
+}
+    public void hideSoftKeyboard(){
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-        setTextBox(); //set onTextChanged Method for measuring time between inputs
-}
-
+    }
     @Override //thanks to https://medium.com/@suragch/how-touch-events-are-delivered-in-android-eee3b607b038
     //// intercept touch event before handled by keyboard & compute distance to button(from touch event)
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -85,7 +87,7 @@ public class eBike extends AppCompatActivity {
         editPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
+                hideSoftKeyboard();
                 if( hasFocus ){ showCustomKeyboard(v);
                     mykeyboard.setInputConnection(ic);} else hideCustomKeyboard();
             }
@@ -93,7 +95,7 @@ public class eBike extends AppCompatActivity {
         editYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
+                hideSoftKeyboard();
                 if( hasFocus ){ showCustomKeyboard(v);
                     mykeyboard.setInputConnection(ic2);} else hideCustomKeyboard();
             }

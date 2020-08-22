@@ -147,7 +147,7 @@ public class Veritaps extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
 
-
+                                    hideSoftKeyboard();
                                  if( hasFocus ){ showCustomKeyboard(v);
                                      mykeyboard.setInputConnection(ic);} else hideCustomKeyboard();
             }
@@ -199,7 +199,7 @@ public class Veritaps extends AppCompatActivity {
         OrigininalPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
+                hideSoftKeyboard();
                 if( hasFocus ) {showCustomKeyboard(v); mykeyboard.setInputConnection(ic2);} else hideCustomKeyboard();
             }
         });
@@ -267,10 +267,10 @@ public class Veritaps extends AppCompatActivity {
     private void hideSoftKeyboard() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
+            if(view!=null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
     }
 
 
